@@ -1,0 +1,12 @@
+2024-01-20 20:25:21.557364+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BMI_RESULT" not found (this database is empty); SQL statement:
+select br1_0.id,br1_0.bmi,br1_0.height,br1_0.name,br1_0.timestamp,br1_0.weight from bmi_result br1_0 [42104-224]
+2024-01-20 20:27:42.306248+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
+The object is already closed [90007-224]
+2024-01-20 20:29:24.905774+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
+The object is already closed [90007-224]
+2024-01-21 02:55:57.411687+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
+The object is already closed [90007-224]
