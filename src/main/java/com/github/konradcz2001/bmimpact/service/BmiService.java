@@ -38,6 +38,16 @@ public class BmiService {
     }
 
     /**
+     * Deletes a specific BMI result if it belongs to the given user.
+     *
+     * @param id       the ID of the result to delete
+     * @param username the username of the requestor
+     */
+    public void deleteResult(String id, String username) {
+        bmiResultRepository.deleteByIdAndUsername(id, username);
+    }
+
+    /**
      * Calculates BMI data based on the form but DOES NOT save it to the database.
      *
      * @param bmiForm the submitted form data

@@ -93,6 +93,7 @@
             <th th:text="#{table.header.bmi}">BMI</th>
             <th th:text="#{table.header.category}">Category</th>
             <th th:text="#{table.header.date}">Date</th>
+            <th th:text="#{table.header.action}" style="width: 80px; text-align: center;">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -102,6 +103,18 @@
             <td th:text="${bmiResult.bmi}"></td>
             <td th:text="${bmiResult.category != null} ? #{${'enum.category.' + bmiResult.category.name().toLowerCase()}} : '-'"></td>
             <td th:text="${#dates.format(bmiResult.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
+            <td style="text-align: center;">
+                <form th:action="@{/history/delete/{id}(id=${bmiResult.id})}" method="post"
+                      onsubmit="return confirm(this.getAttribute('data-confirm'));"
+                      th:attr="data-confirm=#{confirm.delete.history}"
+                      style="margin: 0;">
+                    <button type="submit"
+                            style="background-color: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: auto; font-size: 0.9em; margin-bottom: 0;"
+                            th:text="#{button.delete}">
+                        Delete
+                    </button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

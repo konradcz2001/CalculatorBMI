@@ -10,10 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -75,6 +72,17 @@ public class BmiController {
         redirectAttributes.addFlashAttribute("calculatedResult", result);
         redirectAttributes.addFlashAttribute("bmiForm", new BmiForm()); // Reset form
 
+        return "redirect:/";
+    }
+
+    /**
+     * Deletes a specific history entry.
+     */
+    @PostMapping("/history/delete/{id}")
+    public String deleteBmiResult(@PathVariable String id, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            bmiService.deleteResult(id, authentication.getName());
+        }
         return "redirect:/";
     }
 

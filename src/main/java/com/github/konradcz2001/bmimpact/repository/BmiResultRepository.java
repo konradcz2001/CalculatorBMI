@@ -14,4 +14,6 @@ public interface BmiResultRepository extends MongoRepository<BmiResult, String> 
     Page<BmiResult> findByUsername(String username, Pageable pageable);
 
     void deleteByUsername(String username);
+
+    void deleteByIdAndUsername(String id, String username);
 }
