@@ -37,7 +37,7 @@ public class BmiController {
 
     /**
      * Handles the form submission for BMI calculation.
-     * Validates input, calculates BMI, and saves the result.
+     * Validates input, converts units if necessary, calculates BMI, and saves the result.
      *
      * @param bmiForm       the form data object
      * @param bindingResult holds validation errors
@@ -49,14 +49,22 @@ public class BmiController {
             return "index";
         }
 
-        int height = bmiForm.getHeight();
-        int weight = bmiForm.getWeight();
-        double bmi = calculateBmiValue(height, weight);
+        double heightInCm = bmiForm.getHeight();
+        double weightInKg = bmiForm.getWeight();
+
+        // Convert Imperial to Metric if necessary
+        if (bmiForm.getUnitSystem() == UnitSystem.IMPERIAL) {
+            heightInCm = convertInchesToCm(bmiForm.getHeight());
+            weightInKg = convertLbsToKg(bmiForm.getWeight());
+        }
+
+        double bmi = calculateBmiValue(heightInCm, weightInKg);
 
         BmiResult bmiResult = new BmiResult();
         bmiResult.setName(bmiForm.getName());
-        bmiResult.setHeight(height);
-        bmiResult.setWeight(weight);
+        // Save normalized metric values to database
+        bmiResult.setHeight((int) Math.round(heightInCm));
+        bmiResult.setWeight((int) Math.round(weightInKg));
         bmiResult.setBmi(bmi);
         bmiResult.setTimestamp(new Date());
 
@@ -66,14 +74,23 @@ public class BmiController {
     }
 
     /**
-     * Helper method to calculate BMI value.
+     * Helper method to calculate BMI value based on Metric units.
      * Formula: weight (kg) / [height (m)]^2
      *
-     * @param height height in centimeters
-     * @param weight weight in kilograms
+     * @param heightCm height in centimeters
+     * @param weightKg weight in kilograms
      * @return calculated BMI rounded to two decimal places
      */
-    private double calculateBmiValue(int height, int weight) {
-        return (double) Math.round(((double) weight / (height * height * 0.0001)) * 100) / 100;
+    private double calculateBmiValue(double heightCm, double weightKg) {
+        if (heightCm == 0) return 0;
+        return (double) Math.round((weightKg / (heightCm * heightCm * 0.0001)) * 100) / 100;
+    }
+
+    private double convertInchesToCm(int inches) {
+        return inches * 2.54;
+    }
+
+    private double convertLbsToKg(int lbs) {
+        return lbs * 0.45359237;
     }
 }
