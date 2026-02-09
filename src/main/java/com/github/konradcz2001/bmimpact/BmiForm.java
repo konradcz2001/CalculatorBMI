@@ -1,10 +1,14 @@
-package com.konrad.kalkulatorbmi;// BmiForm.java
+package com.github.konradcz2001.bmimpact;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Data Transfer Object (DTO) backing the BMI calculation form.
+ * Contains validation rules for user input.
+ */
 public class BmiForm {
 
     @NotBlank(message = "Nazwa jest wymagana")
@@ -20,7 +24,6 @@ public class BmiForm {
     @Max(value = 500, message = "Waga maksymalna - 500 kg")
     private int weight;
 
-    // getters and setters
 
     public String getName() {
         return name;
