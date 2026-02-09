@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{auth.register.title}">Register</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div style="text-align: right; margin-bottom: 10px;">
+        <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+    </div>
+
+    <h1 th:text="#{auth.register.title}">Register</h1>
+
+    <form th:action="@{/register}" method="post" th:object="${userDto}">
+        <label for="username" th:text="#{auth.username}">Username:</label>
+        <input type="text" id="username" name="username" th:field="*{username}" required>
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+
+        <label for="password" th:text="#{auth.password}">Password:</label>
+        <input type="password" id="password" name="password" th:field="*{password}" required>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+
+        <button type="submit" th:text="#{auth.button.register}">Register</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 15px;">
+        <a href="/login" th:text="#{auth.link.login}">Already have an account? Login.</a>
+    </div>
+</div>
+</body>
+</html>
