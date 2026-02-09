@@ -41,6 +41,21 @@
     <div style="text-align: center; margin-top: 20px;">
         <a href="/" th:text="#{app.title}">Back to Home</a>
     </div>
+
+    <hr style="margin: 30px 0; border-top: 1px solid #eee;">
+
+    <div style="border: 1px solid #ffcccc; background-color: #fff5f5; padding: 15px; border-radius: 5px;">
+        <h3 style="color: #d32f2f; margin-top: 0;" th:text="#{profile.delete.title}">Delete Account</h3>
+        <p th:text="#{profile.delete.warning}">Warning: This action is permanent and will remove all your data.</p>
+
+        <form th:action="@{/profile/delete}" method="post"
+              onsubmit="return confirm(this.getAttribute('data-confirm-message'));"
+              th:attr="data-confirm-message=#{profile.delete.confirm}">
+            <button type="submit" style="background-color: #d32f2f; color: white; border: none;" th:text="#{button.delete-account}">
+                Delete My Account
+            </button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

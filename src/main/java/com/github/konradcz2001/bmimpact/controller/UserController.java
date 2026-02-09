@@ -2,6 +2,7 @@ package com.github.konradcz2001.bmimpact.controller;
 
 import com.github.konradcz2001.bmimpact.dto.ChangePasswordDto;
 import com.github.konradcz2001.bmimpact.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -48,5 +49,19 @@ public class UserController {
         }
 
         return "redirect:/profile";
+    }
+
+    @PostMapping("/profile/delete")
+    public String deleteAccount(Authentication authentication, HttpServletRequest request) {
+        userService.deleteAccount(authentication.getName());
+
+        // Invalidate session and logout
+        try {
+            request.logout();
+        } catch (Exception e) {
+            // Ignore logout errors during account deletion redirect
+        }
+
+        return "redirect:/login?deleted";
     }
 }
