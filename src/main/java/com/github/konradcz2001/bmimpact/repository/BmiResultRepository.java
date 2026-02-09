@@ -11,12 +11,6 @@ import java.util.List;
  */
 @Repository
 public interface BmiResultRepository extends MongoRepository<BmiResult, String> {
-
-    /**
-     * Finds all BMI results belonging to a specific user.
-     *
-     * @param username the username of the owner
-     * @return list of BMI results
-     */
-    List<BmiResult> findByUsername(String username);
+    List<BmiResult> findByUsernameOrderByTimestampDesc(String name);
+    void deleteAllByName(String name);
 }

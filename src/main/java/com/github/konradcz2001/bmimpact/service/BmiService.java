@@ -28,7 +28,7 @@ public class BmiService {
      * @return list of BmiResult
      */
     public List<BmiResult> getResultsByUser(String username) {
-        return bmiResultRepository.findByUsername(username);
+        return bmiResultRepository.findByUsernameOrderByTimestampDesc(username);
     }
 
     /**

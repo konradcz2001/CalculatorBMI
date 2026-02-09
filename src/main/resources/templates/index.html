@@ -11,7 +11,9 @@
         <div>
             <span sec:authorize="isAuthenticated()">
                 <span th:text="#{auth.welcome}">Welcome,</span>
-                <strong sec:authentication="name">User</strong> |
+                <a href="/profile" style="font-weight: bold; color: #333; text-decoration: none;">
+                    <span sec:authentication="name">User</span>
+                </a> |
                 <form th:action="@{/logout}" method="post" style="display: inline;">
                     <button type="submit"
                             style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer; padding: 0; width: auto; font-size: inherit;">
