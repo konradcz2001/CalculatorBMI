@@ -1,5 +1,4 @@
-package com.konrad.kalkulatorbmi;
-
+package com.github.konradcz2001.bmimpact;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Date;
 
+/**
+ * Entity representing a single BMI calculation result stored in the database.
+ */
 @Entity
 public class BmiResult {
 
@@ -19,7 +21,17 @@ public class BmiResult {
     private double bmi;
     private Date timestamp;
 
-    // getters and setters
+    public BmiResult() {
+    }
+
+    public BmiResult(String name, int height, int weight, double bmi, Date timestamp) {
+        this.name = name;
+        this.height = height;
+        this.weight = weight;
+        this.bmi = bmi;
+        this.timestamp = timestamp;
+    }
+
 
     public Long getId() {
         return id;
@@ -67,18 +79,5 @@ public class BmiResult {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
-    }
-
-    // constructor
-
-    public BmiResult(String name, int height, int weight, double bmi, Date timestamp) {
-        this.name = name;
-        this.height = height;
-        this.weight = weight;
-        this.bmi = bmi;
-        this.timestamp = timestamp;
-    }
-
-    public BmiResult() {
     }
 }

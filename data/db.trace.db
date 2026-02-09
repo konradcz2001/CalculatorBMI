@@ -10,3 +10,6 @@ The object is already closed [90007-224]
 2024-01-21 02:55:57.411687+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
 The object is already closed [90007-224]
+2026-02-09 01:32:39.694397+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
+The object is already closed [90007-224]
