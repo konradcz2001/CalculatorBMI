@@ -51,7 +51,7 @@
     <form th:action="@{/calculate}" method="post" th:object="${bmiForm}">
         <div class="form-group">
             <label th:text="#{label.unit-system}">Unit System:</label>
-            <div th:each="system : ${T(com.github.konradcz2001.bmimpact.UnitSystem).values()}">
+            <div th:each="system : ${T(com.github.konradcz2001.bmimpact.model.UnitSystem).values()}">
                 <input type="radio" th:field="*{unitSystem}" th:value="${system}" required>
                 <label th:for="${#ids.prev('unitSystem')}"
                        th:text="#{${'enum.unit.' + system.name().toLowerCase()}}">
