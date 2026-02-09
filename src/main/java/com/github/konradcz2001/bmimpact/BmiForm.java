@@ -7,23 +7,29 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Data Transfer Object (DTO) backing the BMI calculation form.
- * Contains validation rules for user input.
+ * Contains validation rules for user input compatible with both Metric and Imperial systems.
  */
 public class BmiForm {
 
     @NotBlank(message = "Nazwa jest wymagana")
     private String name;
 
+    // Adjusted constraints to fit both cm and inches (e.g., 10 inches is valid, 300 cm is valid)
     @NotNull(message = "Wzrost jest wymagany")
-    @Min(value = 50, message = "Wzrost minimalny - 50 cm")
-    @Max(value = 300, message = "Wzrost maksymalny - 300 cm")
+    @Min(value = 10, message = "Wartość zbyt mała (min. 10 cm/in)")
+    @Max(value = 300, message = "Wartość zbyt duża (max. 300 cm/in)")
     private int height;
 
+    // Adjusted constraints to fit both kg and lbs
     @NotNull(message = "Waga jest wymagana")
-    @Min(value = 0, message = "Waga minimalna - 0 kg")
-    @Max(value = 500, message = "Waga maksymalna - 500 kg")
+    @Min(value = 1, message = "Wartość zbyt mała")
+    @Max(value = 1000, message = "Wartość zbyt duża")
     private int weight;
 
+    @NotNull(message = "Wybór systemu miar jest wymagany")
+    private UnitSystem unitSystem = UnitSystem.METRIC;
+
+    // Getters and Setters
 
     public String getName() {
         return name;
@@ -47,5 +53,13 @@ public class BmiForm {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public UnitSystem getUnitSystem() {
+        return unitSystem;
+    }
+
+    public void setUnitSystem(UnitSystem unitSystem) {
+        this.unitSystem = unitSystem;
     }
 }
