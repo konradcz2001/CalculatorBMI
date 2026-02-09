@@ -45,7 +45,18 @@
             -
             <span th:text="${calculatedResult.category != null} ? #{${'enum.category.' + calculatedResult.category.name().toLowerCase()}} : '-'">Normal</span>
         </p>
-        <p sec:authorize="!isAuthenticated()" style="font-size: 0.9em; color: #666;">
+
+        <div th:if="${calculatedResult.category != null}" style="margin-top: 20px; text-align: left; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 5px;">
+            <p style="margin-top: 0;">
+                <span th:text="#{${'result.description.' + calculatedResult.category.name().toLowerCase()}}">Description</span>
+            </p>
+            <p style="margin-bottom: 0;">
+                <strong th:text="#{label.recommendation}">Recommendation:</strong>
+                <span th:text="#{${'result.recommendation.' + calculatedResult.category.name().toLowerCase()}}">Recommendation text</span>
+            </p>
+        </div>
+
+        <p sec:authorize="!isAuthenticated()" style="font-size: 0.9em; color: #666; margin-top: 15px;">
             <i th:text="#{auth.link.login}">Log in to save this result to history.</i>
         </p>
     </div>
@@ -61,10 +72,6 @@
             </div>
         </div>
 
-        <label for="name" th:text="#{label.name}">Name:</label>
-        <input type="text" id="name" name="name" th:field="*{name}" required>
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
-
         <label for="height" th:text="#{label.height}">Height:</label>
         <input type="number" id="height" name="height" step="1" th:field="*{height}" required>
         <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}" class="error"></span>
@@ -78,30 +85,51 @@
 
     <h2 th:text="#{history.title}">BMI History</h2>
 
-    <table th:if="${not #lists.isEmpty(bmiResults)}">
+    <table th:if="${bmiPage != null and bmiPage.hasContent()}">
         <thead>
         <tr>
-            <th th:text="#{table.header.name}">Name</th>
             <th th:text="#{table.header.height}">Height</th>
             <th th:text="#{table.header.weight}">Weight</th>
             <th th:text="#{table.header.bmi}">BMI</th>
             <th th:text="#{table.header.category}">Category</th>
             <th th:text="#{table.header.date}">Date</th>
+            <th th:text="#{table.header.action}" style="width: 80px; text-align: center;">Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="bmiResult : ${bmiResults}" th:classappend="${bmiResult.category != null} ? ${bmiResult.category.cssClass} : ''">
-            <td th:text="${bmiResult.name}"></td>
+        <tr th:each="bmiResult : ${bmiPage.content}" th:classappend="${bmiResult.category != null} ? ${bmiResult.category.cssClass} : ''">
             <td th:text="${bmiResult.height}"></td>
             <td th:text="${bmiResult.weight}"></td>
             <td th:text="${bmiResult.bmi}"></td>
             <td th:text="${bmiResult.category != null} ? #{${'enum.category.' + bmiResult.category.name().toLowerCase()}} : '-'"></td>
             <td th:text="${#dates.format(bmiResult.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
+            <td style="text-align: center;">
+                <form th:action="@{/history/delete/{id}(id=${bmiResult.id})}" method="post"
+                      onsubmit="return confirm(this.getAttribute('data-confirm'));"
+                      th:attr="data-confirm=#{confirm.delete.history}"
+                      style="margin: 0;">
+                    <button type="submit"
+                            style="background-color: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: auto; font-size: 0.9em; margin-bottom: 0;"
+                            th:text="#{button.delete}">
+                        Delete
+                    </button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <div th:if="${#lists.isEmpty(bmiResults)}" style="text-align: center; color: #777; margin-top: 20px;">
+    <div th:if="${bmiPage != null and bmiPage.totalPages > 1}" style="text-align: center; margin-top: 20px;">
+        <a th:if="${bmiPage.hasPrevious()}" th:href="@{/(page=${bmiPage.number - 1})}"
+           style="margin-right: 10px; color: #333; text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; border-radius: 4px;">&laquo; Prev</a>
+
+        <span th:text="${bmiPage.number + 1} + ' / ' + ${bmiPage.totalPages}">1 / 5</span>
+
+        <a th:if="${bmiPage.hasNext()}" th:href="@{/(page=${bmiPage.number + 1})}"
+           style="margin-left: 10px; color: #333; text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; border-radius: 4px;">Next &raquo;</a>
+    </div>
+
+    <div th:if="${bmiPage == null or !bmiPage.hasContent()}" style="text-align: center; color: #777; margin-top: 20px;">
         <span sec:authorize="!isAuthenticated()" th:text="#{auth.link.login}">Please log in to see history.</span>
         <span sec:authorize="isAuthenticated()">No history yet. Calculate your first BMI!</span>
     </div>

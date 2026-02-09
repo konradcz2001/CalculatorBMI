@@ -3,18 +3,14 @@ package com.github.konradcz2001.bmimpact.dto;
 import com.github.konradcz2001.bmimpact.model.UnitSystem;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
  * Data Transfer Object (DTO) backing the BMI calculation form.
  * Contains validation rules for user input compatible with both Metric and Imperial systems.
- * validation messages use i18n keys.
+ * Validation messages use i18n keys.
  */
 public class BmiForm {
-
-    @NotBlank(message = "{validation.name.required}")
-    private String name;
 
     // Adjusted constraints to fit both cm and inches
     @NotNull(message = "{validation.height.required}")
@@ -32,14 +28,6 @@ public class BmiForm {
     private UnitSystem unitSystem = UnitSystem.METRIC;
 
     // Getters and Setters
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getHeight() {
         return height;
