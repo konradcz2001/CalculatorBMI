@@ -17,21 +17,22 @@ public class BmiService {
     private BmiResultRepository bmiResultRepository;
 
     /**
-     * Retrieves all stored BMI results history.
+     * Retrieves BMI results for a specific user.
      *
+     * @param username the username to fetch history for
      * @return list of BmiResult
      */
-    public List<BmiResult> getAllResults() {
-        return bmiResultRepository.findAll();
+    public List<BmiResult> getResultsByUser(String username) {
+        return bmiResultRepository.findByUsername(username);
     }
 
     /**
-     * Processes the BMI form, performs calculations/conversions, determines the category,
-     * and saves the result to the database.
+     * Calculates BMI data based on the form but DOES NOT save it to the database.
      *
      * @param bmiForm the submitted form data
+     * @return a transient BmiResult object
      */
-    public void calculateAndSave(BmiForm bmiForm) {
+    public BmiResult calculate(BmiForm bmiForm) {
         double heightInCm = bmiForm.getHeight();
         double weightInKg = bmiForm.getWeight();
 
@@ -52,7 +53,18 @@ public class BmiService {
         bmiResult.setCategory(category);
         bmiResult.setTimestamp(new Date());
 
-        bmiResultRepository.save(bmiResult);
+        return bmiResult;
+    }
+
+    /**
+     * Saves the result to the database linked to a user.
+     *
+     * @param result the BmiResult to save
+     * @param username the username of the owner
+     */
+    public void saveResult(BmiResult result, String username) {
+        result.setUsername(username);
+        bmiResultRepository.save(result);
     }
 
     private double calculateBmiValue(double heightCm, double weightKg) {

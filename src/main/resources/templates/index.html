@@ -24,7 +24,6 @@
                 <a href="/register" th:text="#{auth.button.register}">Register</a>
             </span>
         </div>
-
         <div>
             <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
         </div>
@@ -32,8 +31,24 @@
 
     <h1 th:text="#{app.title}">BMImpact</h1>
 
-    <form action="/calculate" method="post" th:object="${bmiForm}">
+    <div th:if="${calculatedResult}" class="result-box"
+         th:classappend="${calculatedResult.category != null} ? ${calculatedResult.category.cssClass} : ''"
+         style="padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center; border: 1px solid #ccc;">
 
+        <h2 style="margin-top: 0;" th:text="#{result.title}">Your Result</h2>
+
+        <p style="font-size: 1.2em;">
+            <span th:text="#{result.bmi}">BMI:</span>
+            <strong th:text="${calculatedResult.bmi}">22.0</strong>
+            -
+            <span th:text="${calculatedResult.category != null} ? #{${'enum.category.' + calculatedResult.category.name().toLowerCase()}} : '-'">Normal</span>
+        </p>
+        <p sec:authorize="!isAuthenticated()" style="font-size: 0.9em; color: #666;">
+            <i th:text="#{auth.link.login}">Log in to save this result to history.</i>
+        </p>
+    </div>
+
+    <form th:action="@{/calculate}" method="post" th:object="${bmiForm}">
         <div class="form-group">
             <label th:text="#{label.unit-system}">Unit System:</label>
             <div th:each="system : ${T(com.github.konradcz2001.bmimpact.UnitSystem).values()}">
@@ -60,7 +75,8 @@
     </form>
 
     <h2 th:text="#{history.title}">BMI History</h2>
-    <table>
+
+    <table th:if="${not #lists.isEmpty(bmiResults)}">
         <thead>
         <tr>
             <th th:text="#{table.header.name}">Name</th>
@@ -82,6 +98,11 @@
         </tr>
         </tbody>
     </table>
+
+    <div th:if="${#lists.isEmpty(bmiResults)}" style="text-align: center; color: #777; margin-top: 20px;">
+        <span sec:authorize="!isAuthenticated()" th:text="#{auth.link.login}">Please log in to see history.</span>
+        <span sec:authorize="isAuthenticated()">No history yet. Calculate your first BMI!</span>
+    </div>
 </div>
 </body>
 </html>
