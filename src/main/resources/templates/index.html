@@ -45,7 +45,18 @@
             -
             <span th:text="${calculatedResult.category != null} ? #{${'enum.category.' + calculatedResult.category.name().toLowerCase()}} : '-'">Normal</span>
         </p>
-        <p sec:authorize="!isAuthenticated()" style="font-size: 0.9em; color: #666;">
+
+        <div th:if="${calculatedResult.category != null}" style="margin-top: 20px; text-align: left; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 5px;">
+            <p style="margin-top: 0;">
+                <span th:text="#{${'result.description.' + calculatedResult.category.name().toLowerCase()}}">Description</span>
+            </p>
+            <p style="margin-bottom: 0;">
+                <strong th:text="#{label.recommendation}">Recommendation:</strong>
+                <span th:text="#{${'result.recommendation.' + calculatedResult.category.name().toLowerCase()}}">Recommendation text</span>
+            </p>
+        </div>
+
+        <p sec:authorize="!isAuthenticated()" style="font-size: 0.9em; color: #666; margin-top: 15px;">
             <i th:text="#{auth.link.login}">Log in to save this result to history.</i>
         </p>
     </div>
