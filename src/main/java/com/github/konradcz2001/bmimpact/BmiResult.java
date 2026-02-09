@@ -19,16 +19,18 @@ public class BmiResult {
     private int height;
     private int weight;
     private double bmi;
+    private BmiCategory category;
     private Date timestamp;
 
     public BmiResult() {
     }
 
-    public BmiResult(String name, int height, int weight, double bmi, Date timestamp) {
+    public BmiResult(String name, int height, int weight, double bmi, BmiCategory category, Date timestamp) {
         this.name = name;
         this.height = height;
         this.weight = weight;
         this.bmi = bmi;
+        this.category = category;
         this.timestamp = timestamp;
     }
 
@@ -71,6 +73,14 @@ public class BmiResult {
 
     public void setBmi(double bmi) {
         this.bmi = bmi;
+    }
+
+    public BmiCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(BmiCategory category) {
+        this.category = category;
     }
 
     public Date getTimestamp() {

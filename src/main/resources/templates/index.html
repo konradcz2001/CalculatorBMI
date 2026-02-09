@@ -34,7 +34,7 @@
         <button type="submit">Oblicz BMI</button>
     </form>
 
-    <h2>Historia BMI (Wartości znormalizowane - Metryczne)</h2>
+    <h2>Historia BMI</h2>
     <table>
         <thead>
         <tr>
@@ -42,15 +42,17 @@
             <th>Wzrost (cm)</th>
             <th>Waga (kg)</th>
             <th>BMI</th>
+            <th>Kategoria</th>
             <th>Czas</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="bmiResult : ${bmiResults}">
+        <tr th:each="bmiResult : ${bmiResults}" th:classappend="${bmiResult.category != null} ? ${bmiResult.category.cssClass} : ''">
             <td th:text="${bmiResult.name}"></td>
             <td th:text="${bmiResult.height}"></td>
             <td th:text="${bmiResult.weight}"></td>
             <td th:text="${bmiResult.bmi}"></td>
+            <td th:text="${bmiResult.category != null} ? ${bmiResult.category.displayName} : '-'"></td>
             <td th:text="${#dates.format(bmiResult.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
         </tr>
         </tbody>
