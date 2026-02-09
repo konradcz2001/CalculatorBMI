@@ -2,48 +2,54 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>BMImpact</title>
+    <title th:text="#{app.title}">BMImpact</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <div class="container">
-    <h1>BMImpact</h1>
+    <div style="text-align: right; margin-bottom: 10px;">
+        <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+    </div>
+
+    <h1 th:text="#{app.title}">BMImpact</h1>
 
     <form action="/calculate" method="post" th:object="${bmiForm}">
 
         <div class="form-group">
-            <label>System miar:</label>
+            <label th:text="#{label.unit-system}">Unit System:</label>
             <div th:each="system : ${T(com.github.konradcz2001.bmimpact.UnitSystem).values()}">
                 <input type="radio" th:field="*{unitSystem}" th:value="${system}" required>
-                <label th:for="${#ids.prev('unitSystem')}" th:text="${system.displayValue}"></label>
+                <label th:for="${#ids.prev('unitSystem')}"
+                       th:text="#{${'enum.unit.' + system.name().toLowerCase()}}">
+                </label>
             </div>
         </div>
 
-        <label for="name">Nazwa:</label>
+        <label for="name" th:text="#{label.name}">Name:</label>
         <input type="text" id="name" name="name" th:field="*{name}" required>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
 
-        <label for="height">Wzrost (cm / in):</label>
+        <label for="height" th:text="#{label.height}">Height:</label>
         <input type="number" id="height" name="height" step="1" th:field="*{height}" required>
         <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}" class="error"></span>
 
-        <label for="weight">Waga (kg / lbs):</label>
+        <label for="weight" th:text="#{label.weight}">Weight:</label>
         <input type="number" id="weight" name="weight" step="1" th:field="*{weight}" required>
         <span th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}" class="error"></span>
 
-        <button type="submit">Oblicz BMI</button>
+        <button type="submit" th:text="#{button.calculate}">Calculate BMI</button>
     </form>
 
-    <h2>Historia BMI</h2>
+    <h2 th:text="#{history.title}">BMI History</h2>
     <table>
         <thead>
         <tr>
-            <th>Nazwa</th>
-            <th>Wzrost (cm)</th>
-            <th>Waga (kg)</th>
-            <th>BMI</th>
-            <th>Kategoria</th>
-            <th>Czas</th>
+            <th th:text="#{table.header.name}">Name</th>
+            <th th:text="#{table.header.height}">Height</th>
+            <th th:text="#{table.header.weight}">Weight</th>
+            <th th:text="#{table.header.bmi}">BMI</th>
+            <th th:text="#{table.header.category}">Category</th>
+            <th th:text="#{table.header.date}">Date</th>
         </tr>
         </thead>
         <tbody>
@@ -52,7 +58,7 @@
             <td th:text="${bmiResult.height}"></td>
             <td th:text="${bmiResult.weight}"></td>
             <td th:text="${bmiResult.bmi}"></td>
-            <td th:text="${bmiResult.category != null} ? ${bmiResult.category.displayName} : '-'"></td>
+            <td th:text="${bmiResult.category != null} ? #{${'enum.category.' + bmiResult.category.name().toLowerCase()}} : '-'"></td>
             <td th:text="${#dates.format(bmiResult.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
         </tr>
         </tbody>
