@@ -1,20 +1,20 @@
 package com.github.konradcz2001.bmimpact;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
 /**
- * Entity representing a single BMI calculation result stored in the database.
+ * Document representing a single BMI calculation result stored in MongoDB.
+ * Mapped to the "results" collection.
  */
-@Entity
+@Document(collection = "results")
 public class BmiResult {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
+
     private String name;
     private int height;
     private int weight;
@@ -33,11 +33,11 @@ public class BmiResult {
     }
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
