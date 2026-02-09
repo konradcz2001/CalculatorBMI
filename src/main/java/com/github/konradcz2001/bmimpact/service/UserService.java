@@ -1,5 +1,6 @@
 package com.github.konradcz2001.bmimpact.service;
 
+import com.github.konradcz2001.bmimpact.dto.ChangePasswordDto;
 import com.github.konradcz2001.bmimpact.dto.UserRegistrationDto;
 import com.github.konradcz2001.bmimpact.model.User;
 import com.github.konradcz2001.bmimpact.repository.UserRepository;
@@ -35,6 +36,22 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
+        userRepository.save(user);
+    }
+
+    public void changePassword(String username, ChangePasswordDto dto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid current password");
+        }
+
+        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
     }
 }
