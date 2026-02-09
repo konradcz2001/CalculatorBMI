@@ -1,9 +1,12 @@
 package com.github.konradcz2001.bmimpact;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * Repository interface for accessing BmiResult data using JPA.
+ * Repository interface for accessing BmiResult documents in MongoDB.
+ * Extends MongoRepository to provide standard CRUD operations.
  */
-public interface BmiResultRepository extends JpaRepository<BmiResult, Long> {
+@Repository
+public interface BmiResultRepository extends MongoRepository<BmiResult, String> {
 }
