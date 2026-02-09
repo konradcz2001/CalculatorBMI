@@ -85,7 +85,7 @@
 
     <h2 th:text="#{history.title}">BMI History</h2>
 
-    <table th:if="${not #lists.isEmpty(bmiResults)}">
+    <table th:if="${bmiPage != null and bmiPage.hasContent()}">
         <thead>
         <tr>
             <th th:text="#{table.header.height}">Height</th>
@@ -96,7 +96,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="bmiResult : ${bmiResults}" th:classappend="${bmiResult.category != null} ? ${bmiResult.category.cssClass} : ''">
+        <tr th:each="bmiResult : ${bmiPage.content}" th:classappend="${bmiResult.category != null} ? ${bmiResult.category.cssClass} : ''">
             <td th:text="${bmiResult.height}"></td>
             <td th:text="${bmiResult.weight}"></td>
             <td th:text="${bmiResult.bmi}"></td>
@@ -106,7 +106,17 @@
         </tbody>
     </table>
 
-    <div th:if="${#lists.isEmpty(bmiResults)}" style="text-align: center; color: #777; margin-top: 20px;">
+    <div th:if="${bmiPage != null and bmiPage.totalPages > 1}" style="text-align: center; margin-top: 20px;">
+        <a th:if="${bmiPage.hasPrevious()}" th:href="@{/(page=${bmiPage.number - 1})}"
+           style="margin-right: 10px; color: #333; text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; border-radius: 4px;">&laquo; Prev</a>
+
+        <span th:text="${bmiPage.number + 1} + ' / ' + ${bmiPage.totalPages}">1 / 5</span>
+
+        <a th:if="${bmiPage.hasNext()}" th:href="@{/(page=${bmiPage.number + 1})}"
+           style="margin-left: 10px; color: #333; text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; border-radius: 4px;">Next &raquo;</a>
+    </div>
+
+    <div th:if="${bmiPage == null or !bmiPage.hasContent()}" style="text-align: center; color: #777; margin-top: 20px;">
         <span sec:authorize="!isAuthenticated()" th:text="#{auth.link.login}">Please log in to see history.</span>
         <span sec:authorize="isAuthenticated()">No history yet. Calculate your first BMI!</span>
     </div>

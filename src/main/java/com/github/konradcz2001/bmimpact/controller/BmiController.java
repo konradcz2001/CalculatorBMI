@@ -5,6 +5,7 @@ import com.github.konradcz2001.bmimpact.model.BmiResult;
 import com.github.konradcz2001.bmimpact.service.BmiService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Controller handling web requests for the BMI Calculator.
@@ -32,8 +31,10 @@ public class BmiController {
      * Fetches history only if the user is logged in.
      */
     @GetMapping("/")
-    public String index(Model model, Authentication authentication) {
-        populateModel(model, authentication);
+    public String index(Model model,
+                        Authentication authentication,
+                        @RequestParam(defaultValue = "0") int page) {
+        populateModel(model, authentication, page);
 
         // If "bmiForm" is not already in the model (e.g. from flash attributes), add a new one
         if (!model.containsAttribute("bmiForm")) {
@@ -57,8 +58,8 @@ public class BmiController {
                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            // Re-populate history so the table doesn't disappear
-            populateModel(model, authentication);
+            // Re-populate history so the table doesn't disappear. Show first page.
+            populateModel(model, authentication, 0);
             return "index";
         }
 
@@ -82,15 +83,13 @@ public class BmiController {
      *
      * @param model the Spring MVC model
      * @param authentication the current security context
+     * @param page the page number to fetch
      */
-    private void populateModel(Model model, Authentication authentication) {
-        List<BmiResult> bmiResults = Collections.emptyList();
-
+    private void populateModel(Model model, Authentication authentication, int page) {
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
-            bmiResults = bmiService.getResultsByUser(username);
+            Page<BmiResult> bmiPage = bmiService.getResultsByUser(username, page, 10);
+            model.addAttribute("bmiPage", bmiPage);
         }
-
-        model.addAttribute("bmiResults", bmiResults);
     }
 }

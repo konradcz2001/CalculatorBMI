@@ -6,10 +6,13 @@ import com.github.konradcz2001.bmimpact.model.BmiResult;
 import com.github.konradcz2001.bmimpact.model.UnitSystem;
 import com.github.konradcz2001.bmimpact.repository.BmiResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Service layer responsible for business logic regarding BMI calculations,
@@ -22,13 +25,16 @@ public class BmiService {
     private BmiResultRepository bmiResultRepository;
 
     /**
-     * Retrieves BMI results for a specific user.
+     * Retrieves BMI results for a specific user with pagination.
      *
      * @param username the username to fetch history for
-     * @return list of BmiResult
+     * @param page     page number (0-based)
+     * @param size     page size
+     * @return Page of BmiResult
      */
-    public List<BmiResult> getResultsByUser(String username) {
-        return bmiResultRepository.findByUsernameOrderByTimestampDesc(username);
+    public Page<BmiResult> getResultsByUser(String username, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
+        return bmiResultRepository.findByUsername(username, pageable);
     }
 
     /**
