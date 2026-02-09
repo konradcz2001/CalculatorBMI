@@ -1,4 +1,4 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.model;
 
 /**
  * Enum representing the available unit systems for input data.

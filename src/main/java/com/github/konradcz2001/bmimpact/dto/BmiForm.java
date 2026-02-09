@@ -1,5 +1,6 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.dto;
 
+import com.github.konradcz2001.bmimpact.model.UnitSystem;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

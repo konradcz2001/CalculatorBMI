@@ -1,4 +1,4 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
