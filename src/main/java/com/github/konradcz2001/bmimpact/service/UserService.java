@@ -61,7 +61,7 @@ public class UserService {
 
     @Transactional
     public void deleteAccount(String username) {
-        bmiResultRepository.deleteAllByName(username);
+        bmiResultRepository.deleteByUsername(username);
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));

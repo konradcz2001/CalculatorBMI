@@ -16,7 +16,6 @@ public class BmiResult {
     private String id;
 
     private String username; // Owner of the result (null if anonymous/legacy)
-    private String name;     // Label/Name of the measurement given by user
     private int height;
     private int weight;
     private double bmi;
@@ -26,16 +25,14 @@ public class BmiResult {
     public BmiResult() {
     }
 
-    public BmiResult(String username, String name, int height, int weight, double bmi, BmiCategory category, Date timestamp) {
+    public BmiResult(String username, int height, int weight, double bmi, BmiCategory category, Date timestamp) {
         this.username = username;
-        this.name = name;
         this.height = height;
         this.weight = weight;
         this.bmi = bmi;
         this.category = category;
         this.timestamp = timestamp;
     }
-
 
     public String getId() {
         return id;
@@ -51,14 +48,6 @@ public class BmiResult {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getHeight() {

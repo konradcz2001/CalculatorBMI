@@ -11,6 +11,8 @@ import java.util.List;
  */
 @Repository
 public interface BmiResultRepository extends MongoRepository<BmiResult, String> {
-    List<BmiResult> findByUsernameOrderByTimestampDesc(String name);
-    void deleteAllByName(String name);
+    List<BmiResult> findByUsernameOrderByTimestampDesc(String username);
+
+    // Updated to deleteByUsername since the 'name' field was removed from the entity
+    void deleteByUsername(String username);
 }

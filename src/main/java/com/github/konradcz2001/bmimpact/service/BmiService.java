@@ -51,7 +51,6 @@ public class BmiService {
         BmiCategory category = determineCategory(bmi);
 
         BmiResult bmiResult = new BmiResult();
-        bmiResult.setName(bmiForm.getName());
         bmiResult.setHeight((int) Math.round(heightInCm));
         bmiResult.setWeight((int) Math.round(weightInKg));
         bmiResult.setBmi(bmi);
