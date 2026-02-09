@@ -1,5 +1,10 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.service;
 
+import com.github.konradcz2001.bmimpact.dto.BmiForm;
+import com.github.konradcz2001.bmimpact.model.BmiCategory;
+import com.github.konradcz2001.bmimpact.model.BmiResult;
+import com.github.konradcz2001.bmimpact.model.UnitSystem;
+import com.github.konradcz2001.bmimpact.repository.BmiResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

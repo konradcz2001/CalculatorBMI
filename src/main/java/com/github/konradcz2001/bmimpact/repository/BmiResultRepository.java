@@ -1,5 +1,6 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.repository;
 
+import com.github.konradcz2001.bmimpact.model.BmiResult;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

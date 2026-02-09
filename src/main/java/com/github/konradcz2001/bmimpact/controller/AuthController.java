@@ -1,5 +1,7 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.controller;
 
+import com.github.konradcz2001.bmimpact.dto.UserRegistrationDto;
+import com.github.konradcz2001.bmimpact.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

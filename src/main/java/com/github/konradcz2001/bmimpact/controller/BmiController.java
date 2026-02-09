@@ -1,5 +1,8 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.controller;
 
+import com.github.konradcz2001.bmimpact.dto.BmiForm;
+import com.github.konradcz2001.bmimpact.model.BmiResult;
+import com.github.konradcz2001.bmimpact.service.BmiService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

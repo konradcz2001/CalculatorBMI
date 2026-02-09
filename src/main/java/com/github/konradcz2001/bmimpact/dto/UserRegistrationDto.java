@@ -1,4 +1,4 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,5 +1,7 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.service;
 
+import com.github.konradcz2001.bmimpact.model.User;
+import com.github.konradcz2001.bmimpact.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

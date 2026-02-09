@@ -1,5 +1,8 @@
-package com.github.konradcz2001.bmimpact;
+package com.github.konradcz2001.bmimpact.service;
 
+import com.github.konradcz2001.bmimpact.dto.UserRegistrationDto;
+import com.github.konradcz2001.bmimpact.model.User;
+import com.github.konradcz2001.bmimpact.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
