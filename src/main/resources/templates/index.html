@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{app.title}">BMImpact</title>
@@ -7,8 +7,27 @@
 </head>
 <body>
 <div class="container">
-    <div style="text-align: right; margin-bottom: 10px;">
-        <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+        <div>
+            <span sec:authorize="isAuthenticated()">
+                <span th:text="#{auth.welcome}">Welcome,</span>
+                <strong sec:authentication="name">User</strong> |
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit"
+                            style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer; padding: 0; width: auto; font-size: inherit;">
+                        <span th:text="#{auth.button.logout}">Logout</span>
+                    </button>
+                </form>
+            </span>
+            <span sec:authorize="!isAuthenticated()">
+                <a href="/login" th:text="#{auth.button.login}">Login</a> |
+                <a href="/register" th:text="#{auth.button.register}">Register</a>
+            </span>
+        </div>
+
+        <div>
+            <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+        </div>
     </div>
 
     <h1 th:text="#{app.title}">BMImpact</h1>
