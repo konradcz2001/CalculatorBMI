@@ -1,23 +1,58 @@
+:root {
+    /* Base Colors */
+    --bg-body: #f5f5f5;
+    --bg-container: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #555555;
+    --text-muted: #777777;
+    --border-color: #dddddd;
+
+    /* Brand & Actions */
+    --primary-color: #4caf50;
+    --primary-hover: #45a049;
+    --delete-color: #d32f2f;
+    --link-color: #0000ff;
+
+    /* State */
+    --error-color: #ff0000;
+    --success-color: #008000;
+
+    /* Components */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+    --result-box-border: #cccccc;
+    --result-desc-bg: rgba(255, 255, 255, 0.5);
+
+    /* Table */
+    --table-header-bg: #4caf50;
+    --table-header-text: #ffffff;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: var(--bg-container);
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--shadow-color);
     margin-top: 50px;
 }
 
 h1, h2 {
-    color: #333;
+    color: var(--text-primary);
     text-align: center;
+}
+
+a {
+    color: var(--link-color);
 }
 
 form {
@@ -31,18 +66,21 @@ form {
 label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
+    color: var(--text-secondary);
     font-weight: bold;
 }
 
 input[type="text"],
+input[type="password"],
 input[type="number"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
 }
 
 input[type="radio"] {
@@ -54,7 +92,7 @@ button {
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-    background-color: #4caf50;
+    background-color: var(--primary-color);
     color: #fff;
     cursor: pointer;
     border: none;
@@ -63,9 +101,15 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: var(--primary-hover);
 }
 
+/* Result Box */
+.result-box {
+    border: 1px solid var(--result-box-border) !important;
+}
+
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -73,25 +117,30 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     padding: 10px;
     text-align: left;
 }
 
 th {
-    background-color: #4caf50;
-    color: #fff;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
 }
 
+/* Utility & States */
 .error {
-    color: #ff0000;
+    color: var(--error-color);
     font-size: 12px;
     margin-top: -8px;
     margin-bottom: 10px;
     display: block;
 }
 
-/* BMI Categories Colors */
+.success {
+    color: var(--success-color);
+}
+
+/* BMI Categories Colors (Specific overrides, kept distinct for medical clarity) */
 .bmi-underweight {
     background-color: #e3f2fd; /* Light Blue */
     color: #0d47a1;
