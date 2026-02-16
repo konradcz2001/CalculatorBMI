@@ -46,7 +46,7 @@ BMImpact is a modern, Spring Boot-based application for calculating Body Mass In
 
 ## 🛠️ Tech Stack
 * ☕ **Java 21**
-* 🍃 **Spring Boot 3** (Web, Security, Data MongoDB, Validation, Test)
+* 🍃 **Spring Boot 4** (Web, Security, Data MongoDB, Validation, Test)
 * 🍃 **Thymeleaf** (with Spring Security extras)
 * 💾 **MongoDB**
 * 📉 **Chart.js**
