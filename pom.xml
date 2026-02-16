@@ -11,7 +11,7 @@
 
     <groupId>com.github.konradcz2001</groupId>
     <artifactId>bmimpact</artifactId>
-    <version>1</version>
+    <version>2.0.0</version>
     <name>BMImpact</name>
     <description>BMImpact - Advanced BMI Calculator</description>
 
