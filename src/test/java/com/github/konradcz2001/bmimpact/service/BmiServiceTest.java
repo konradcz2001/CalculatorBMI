@@ -28,10 +28,7 @@ class BmiServiceTest {
     @DisplayName("Should calculate BMI correctly for Metric system")
     void shouldCalculateMetricBmi() {
         // Given
-        BmiForm form = new BmiForm();
-        form.setHeight(180); // int
-        form.setWeight(75);  // int
-        form.setUnitSystem(UnitSystem.METRIC);
+        BmiForm form = createForm(180, 75, UnitSystem.METRIC);
 
         // When
         BmiResult result = bmiService.calculate(form);
@@ -46,10 +43,7 @@ class BmiServiceTest {
     @DisplayName("Should calculate BMI correctly for Imperial system")
     void shouldCalculateImperialBmi() {
         // Given
-        BmiForm form = new BmiForm();
-        form.setHeight(70);  // inches (int)
-        form.setWeight(160); // lbs (int)
-        form.setUnitSystem(UnitSystem.IMPERIAL);
+        BmiForm form = createForm(70, 160, UnitSystem.IMPERIAL);
 
         // When
         BmiResult result = bmiService.calculate(form);
@@ -61,13 +55,40 @@ class BmiServiceTest {
     }
 
     @Test
+    @DisplayName("Boundary check: BMI exactly 25.0 should be Overweight")
+    void shouldCategorizeBoundaryOverweight() {
+        // Given
+        // 81kg / (1.8m * 1.8m) = 25.0
+        BmiForm form = createForm(180, 81, UnitSystem.METRIC);
+
+        // When
+        BmiResult result = bmiService.calculate(form);
+
+        // Then
+        assertThat(result.getBmi()).isEqualTo(25.0);
+        assertThat(result.getCategory()).isEqualTo(BmiCategory.OVERWEIGHT);
+    }
+
+    @Test
+    @DisplayName("Boundary check: BMI exactly 18.5 should be Normal")
+    void shouldCategorizeBoundaryNormal() {
+        // Given
+        // 60kg / (1.8m * 1.8m) ≈ 18.52
+        BmiForm form = createForm(180, 60, UnitSystem.METRIC);
+
+        // When
+        BmiResult result = bmiService.calculate(form);
+
+        // Then
+        assertThat(result.getBmi()).isGreaterThanOrEqualTo(18.5);
+        assertThat(result.getCategory()).isEqualTo(BmiCategory.NORMAL);
+    }
+
+    @Test
     @DisplayName("Should correctly categorize BMI as Obese")
     void shouldCategorizeObese() {
         // Given
-        BmiForm form = new BmiForm();
-        form.setHeight(180);
-        form.setWeight(100); // BMI ~30.86
-        form.setUnitSystem(UnitSystem.METRIC);
+        BmiForm form = createForm(180, 100, UnitSystem.METRIC);
 
         // When
         BmiResult result = bmiService.calculate(form);
@@ -89,5 +110,13 @@ class BmiServiceTest {
         // Then
         verify(bmiResultRepository, times(1)).save(result);
         assertThat(result.getUsername()).isEqualTo(username);
+    }
+
+    private BmiForm createForm(int h, int w, UnitSystem system) {
+        BmiForm form = new BmiForm();
+        form.setHeight(h);
+        form.setWeight(w);
+        form.setUnitSystem(system);
+        return form;
     }
 }
