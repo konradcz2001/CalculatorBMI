@@ -2,44 +2,57 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{auth.login.title}">Login</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/theme.js" defer></script>
 </head>
 <body>
-<div class="container">
-    <div style="text-align: right; margin-bottom: 10px;">
-        <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+<div class="container" style="max-width: 400px; margin-top: 10vh;">
+    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px;">
+        <a href="?lang=pl" style="font-size: 0.9rem;">PL</a>
+        <span style="color: var(--border-color);">|</span>
+        <a href="?lang=en" style="font-size: 0.9rem;">EN</a>
+        <button id="theme-toggle" class="theme-toggle" style="font-size: 1.2rem;">🌙</button>
     </div>
 
     <h1 th:text="#{auth.login.title}">Sign In</h1>
 
-    <div th:if="${param.error}" class="error" style="text-align:center; margin-bottom:15px;"
+    <div th:if="${param.error}" class="error" style="text-align:center; margin-bottom:15px; background: var(--danger-bg); padding: 10px; border-radius: var(--radius);"
          th:text="#{auth.error.bad-credentials}">
         Invalid credentials
     </div>
-    <div th:if="${param.logout}" class="success" style="text-align:center; margin-bottom:15px; color: green;"
+    <div th:if="${param.logout}" class="success"
          th:text="#{auth.logout.success}">
         Logged out
     </div>
-    <div th:if="${param.registered}" class="success" style="text-align:center; margin-bottom:15px; color: green;"
+    <div th:if="${param.registered}" class="success"
          th:text="#{auth.register.success}">
         Registered
     </div>
 
     <form th:action="@{/login}" method="post">
-        <label for="username" th:text="#{auth.username}">Username:</label>
-        <input type="text" id="username" name="username" required autofocus>
+        <div class="form-group">
+            <label for="username" th:text="#{auth.username}">Username:</label>
+            <input type="text" id="username" name="username" required autofocus>
+        </div>
 
-        <label for="password" th:text="#{auth.password}">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <div class="form-group">
+            <label for="password" th:text="#{auth.password}">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
 
-        <button type="submit" th:text="#{auth.button.login}">Sign In</button>
+        <button type="submit" th:text="#{auth.button.login}" style="margin-top: 1rem;">Sign In</button>
     </form>
 
-    <div style="text-align: center; margin-top: 15px;">
+    <div style="text-align: center; margin-top: 1.5rem;">
         <a href="/register" th:text="#{auth.link.register}">No account? Register here.</a>
         <br/><br/>
-        <a href="/" th:text="#{app.title}">Back to Home</a>
+        <a href="/" th:text="#{app.title}" style="color: var(--text-secondary); font-size: 0.9rem;">Back to Home</a>
     </div>
 </div>
 </body>

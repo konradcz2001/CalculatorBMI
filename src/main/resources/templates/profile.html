@@ -2,38 +2,57 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{profile.title}">User Profile</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/theme.js" defer></script>
 </head>
 <body>
 <div class="container">
-    <div style="text-align: right; margin-bottom: 10px;">
-        <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+    <div class="header-nav">
+        <a href="/" class="brand-container">
+            <img src="/images/logo.svg" alt="BMImpact Logo" class="logo">
+            <h1 style="margin: 0; font-size: 1.5rem;" th:text="#{profile.title}">My Profile</h1>
+        </a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="?lang=pl" style="font-size: 0.9rem;">PL</a>
+            <span style="color: var(--border-color);">|</span>
+            <a href="?lang=en" style="font-size: 0.9rem;">EN</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
+        </div>
     </div>
 
-    <h1 th:text="#{profile.title}">My Profile</h1>
-
-    <div style="margin-bottom: 20px; padding: 10px; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 4px;">
-        <strong th:text="#{auth.username}">Username:</strong>
-        <span sec:authentication="name">User</span>
+    <div style="margin-bottom: 2rem; padding: 1rem; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: var(--radius); display: flex; align-items: center;">
+        <strong th:text="#{auth.username}" style="margin-right: 10px;">Username:</strong>
+        <span sec:authentication="name" style="font-size: 1.1rem; color: var(--primary-color);">User</span>
     </div>
 
-    <div th:if="${successMessage}" class="success" style="color: green; text-align: center; margin-bottom: 15px;" th:text="${successMessage}"></div>
+    <div th:if="${successMessage}" class="success" th:text="${successMessage}"></div>
     <div th:if="${errorMessage}" class="error" style="text-align: center; margin-bottom: 15px;" th:text="${errorMessage}"></div>
 
     <h2 th:text="#{profile.change-password}">Change Password</h2>
     <form th:action="@{/profile/change-password}" method="post" th:object="${passwordDto}">
-        <label for="currentPassword" th:text="#{profile.current-password}">Current Password:</label>
-        <input type="password" id="currentPassword" th:field="*{currentPassword}" required>
-        <span th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}" class="error"></span>
+        <div class="form-group">
+            <label for="currentPassword" th:text="#{profile.current-password}">Current Password:</label>
+            <input type="password" id="currentPassword" th:field="*{currentPassword}" required>
+            <span th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}" class="error"></span>
+        </div>
 
-        <label for="newPassword" th:text="#{profile.new-password}">New Password:</label>
-        <input type="password" id="newPassword" th:field="*{newPassword}" required>
-        <span th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error"></span>
+        <div class="form-group">
+            <label for="newPassword" th:text="#{profile.new-password}">New Password:</label>
+            <input type="password" id="newPassword" th:field="*{newPassword}" required>
+            <span th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="error"></span>
+        </div>
 
-        <label for="confirmNewPassword" th:text="#{profile.confirm-password}">Confirm New Password:</label>
-        <input type="password" id="confirmNewPassword" th:field="*{confirmNewPassword}" required>
-        <span th:if="${#fields.hasErrors('confirmNewPassword')}" th:errors="*{confirmNewPassword}" class="error"></span>
+        <div class="form-group" style="margin-bottom: 2rem;">
+            <label for="confirmNewPassword" th:text="#{profile.confirm-password}">Confirm New Password:</label>
+            <input type="password" id="confirmNewPassword" th:field="*{confirmNewPassword}" required>
+            <span th:if="${#fields.hasErrors('confirmNewPassword')}" th:errors="*{confirmNewPassword}" class="error"></span>
+        </div>
 
         <button type="submit" th:text="#{button.save}">Save Changes</button>
     </form>
@@ -42,16 +61,17 @@
         <a href="/" th:text="#{app.title}">Back to Home</a>
     </div>
 
-    <hr style="margin: 30px 0; border-top: 1px solid #eee;">
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
 
-    <div style="border: 1px solid #ffcccc; background-color: #fff5f5; padding: 15px; border-radius: 5px;">
-        <h3 style="color: #d32f2f; margin-top: 0;" th:text="#{profile.delete.title}">Delete Account</h3>
-        <p th:text="#{profile.delete.warning}">Warning: This action is permanent and will remove all your data.</p>
+    <div style="border: 1px solid var(--danger-color); background-color: var(--danger-bg); padding: 20px; border-radius: var(--radius);">
+        <h3 style="color: var(--danger-color); margin-top: 0; font-size: 1.1rem;" th:text="#{profile.delete.title}">Delete Account</h3>
+        <p th:text="#{profile.delete.warning}" style="color: var(--text-primary); margin-bottom: 15px;">Warning: This action is permanent and will remove all your data.</p>
 
         <form th:action="@{/profile/delete}" method="post"
               onsubmit="return confirm(this.getAttribute('data-confirm-message'));"
-              th:attr="data-confirm-message=#{profile.delete.confirm}">
-            <button type="submit" style="background-color: #d32f2f; color: white; border: none;" th:text="#{button.delete-account}">
+              th:attr="data-confirm-message=#{profile.delete.confirm}"
+              style="margin-bottom: 0;">
+            <button type="submit" style="background-color: var(--danger-color); color: white; border: none;" th:text="#{button.delete-account}">
                 Delete My Account
             </button>
         </form>

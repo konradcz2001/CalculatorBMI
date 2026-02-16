@@ -2,30 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{auth.register.title}">Register</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/theme.js" defer></script>
 </head>
 <body>
-<div class="container">
-    <div style="text-align: right; margin-bottom: 10px;">
-        <a href="?lang=pl">PL</a> | <a href="?lang=en">EN</a>
+<div class="container" style="max-width: 400px; margin-top: 10vh;">
+    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px;">
+        <a href="?lang=pl" style="font-size: 0.9rem;">PL</a>
+        <span style="color: var(--border-color);">|</span>
+        <a href="?lang=en" style="font-size: 0.9rem;">EN</a>
+        <button id="theme-toggle" class="theme-toggle" style="font-size: 1.2rem;">🌙</button>
     </div>
 
     <h1 th:text="#{auth.register.title}">Register</h1>
 
     <form th:action="@{/register}" method="post" th:object="${userDto}">
-        <label for="username" th:text="#{auth.username}">Username:</label>
-        <input type="text" id="username" name="username" th:field="*{username}" required>
-        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+        <div class="form-group">
+            <label for="username" th:text="#{auth.username}">Username:</label>
+            <input type="text" id="username" name="username" th:field="*{username}" required>
+            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+        </div>
 
-        <label for="password" th:text="#{auth.password}">Password:</label>
-        <input type="password" id="password" name="password" th:field="*{password}" required>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+        <div class="form-group">
+            <label for="password" th:text="#{auth.password}">Password:</label>
+            <input type="password" id="password" name="password" th:field="*{password}" required>
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+        </div>
 
-        <button type="submit" th:text="#{auth.button.register}">Register</button>
+        <button type="submit" th:text="#{auth.button.register}" style="margin-top: 1rem;">Register</button>
     </form>
 
-    <div style="text-align: center; margin-top: 15px;">
+    <div style="text-align: center; margin-top: 1.5rem;">
         <a href="/login" th:text="#{auth.link.login}">Already have an account? Login.</a>
     </div>
 </div>

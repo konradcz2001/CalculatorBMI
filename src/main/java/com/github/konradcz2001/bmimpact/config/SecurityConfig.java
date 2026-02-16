@@ -25,8 +25,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Allow public access to static resources, index page, and calculation logic
-                        .requestMatchers("/", "/calculate", "/register", "/css/**", "/error").permitAll()
+                        // Allow public access to static resources (css, js, images), index page, and calculation logic
+                        .requestMatchers("/", "/calculate", "/register", "/css/**", "/js/**", "/images/**", "/error").permitAll()
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 )
