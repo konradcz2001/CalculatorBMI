@@ -10,7 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Data comes from Thymeleaf in DESC order (newest first), reverse for chart (time progression)
     const sortedData = [...bmiHistoryData].reverse();
 
-    const labels = sortedData.map(item => item.date);
+    // Map data and format dates to local timezone
+    const labels = sortedData.map(item => {
+        const date = new Date(item.date);
+        return date.toLocaleString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    });
+
     const weightData = sortedData.map(item => item.weight);
     const bmiData = sortedData.map(item => item.bmi);
 
@@ -61,6 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 legend: {
                     labels: {
                         color: colors.text
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        }
                     }
                 }
             },

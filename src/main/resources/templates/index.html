@@ -12,6 +12,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/theme.js" defer></script>
+    <script src="/js/formatting.js" defer></script>
     <script src="/js/charts.js" defer></script>
 </head>
 <body>
@@ -114,7 +115,8 @@
         const bmiHistoryData = [
             /*[# th:each="result : ${bmiPage.content}"]*/
             {
-                date: /*[[${#dates.format(result.timestamp, 'yyyy-MM-dd HH:mm')}]]*/ '2023-01-01 12:00',
+                // Send raw ISO string for JS parsing
+                date: /*[[${#dates.format(result.timestamp, 'yyyy-MM-dd''T''HH:mm:ss')}]]*/ '2026-01-01T12:00:00',
                 weight: /*[[${result.weight}]]*/ 75,
                 bmi: /*[[${result.bmi}]]*/ 22.5
             },
@@ -147,7 +149,7 @@
                 <td th:text="${bmiResult.weight}"></td>
                 <td th:text="${bmiResult.bmi}" style="font-weight: bold;"></td>
                 <td th:text="${bmiResult.category != null} ? #{${'enum.category.' + bmiResult.category.name().toLowerCase()}} : '-'"></td>
-                <td th:text="${#dates.format(bmiResult.timestamp, 'dd-MM-yyyy HH:mm')}" style="color: var(--text-secondary); font-size: 0.85rem;"></td>
+                <td class="local-datetime" th:text="${#dates.format(bmiResult.timestamp, 'yyyy-MM-dd''T''HH:mm:ss')}" style="color: var(--text-secondary); font-size: 0.85rem;">2023-01-01T12:00:00</td>
                 <td style="text-align: center;">
                     <form th:action="@{/history/delete/{id}(id=${bmiResult.id})}" method="post"
                           onsubmit="return confirm(this.getAttribute('data-confirm'));"
