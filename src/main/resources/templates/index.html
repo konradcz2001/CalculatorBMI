@@ -9,7 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/theme.js" defer></script>
+    <script src="/js/charts.js" defer></script>
 </head>
 <body>
 <div class="container">
@@ -100,6 +103,30 @@
     </form>
 
     <h2 th:text="#{history.title}">BMI History</h2>
+
+    <div th:if="${bmiPage != null and bmiPage.hasContent()}" style="margin-bottom: 2rem; padding: 1rem; background: var(--input-bg); border-radius: var(--radius); border: 1px solid var(--border-color);">
+        <h3 th:text="#{chart.title}" style="margin-top: 0; font-size: 1.1rem; text-align: center;">Weight Progress</h3>
+        <canvas id="bmiChart" width="400" height="200"></canvas>
+    </div>
+
+    <script th:inline="javascript" th:if="${bmiPage != null and bmiPage.hasContent()}">
+        /*<![CDATA[*/
+        const bmiHistoryData = [
+            /*[# th:each="result : ${bmiPage.content}"]*/
+            {
+                date: /*[[${#dates.format(result.timestamp, 'yyyy-MM-dd HH:mm')}]]*/ '2023-01-01 12:00',
+                weight: /*[[${result.weight}]]*/ 75,
+                bmi: /*[[${result.bmi}]]*/ 22.5
+            },
+            /*[/]*/
+        ];
+
+        const chartLabels = {
+            weight: /*[[#{chart.label.weight}]]*/ 'Weight',
+            bmi: /*[[#{chart.label.bmi}]]*/ 'BMI'
+        };
+        /*]]>*/
+    </script>
 
     <div style="overflow-x: auto;">
         <table th:if="${bmiPage != null and bmiPage.hasContent()}">
